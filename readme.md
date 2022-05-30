@@ -8,7 +8,7 @@ Develop an automation framework for the Hardcore task in WebDriver.
 - Page Object/Page Factory for page abstractions
 - Models for business objects of the required elements
 - Property files with test data for at least two different environments
-- XML suites for smoke tests and other tests
+- XML suites for smoke test and other test
 - If the test fails, a screenshot with the date and time is taken
 - The framework should include an option for running with Jenkins and browser parameterization, test suite, environment
 - Test results should be displayed on the job chart, and the screenshots should be archived as artifacts.
