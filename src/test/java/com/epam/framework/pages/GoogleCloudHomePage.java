@@ -8,7 +8,7 @@ import org.openqa.selenium.support.PageFactory;
 
 // mvn -Dbrowser=chrome -Dsurefire.suiteXmlFiles=src/test/resources/testng-all.xml -Denvironment=dev clean test
 
-public class GoogleCloudPage extends AbstractPage {
+public class GoogleCloudHomePage extends AbstractPage {
 
     private final String BASE_URL = "https://cloud.google.com/";
 
@@ -18,23 +18,25 @@ public class GoogleCloudPage extends AbstractPage {
     @FindBy(css = "form[class='devsite-search-form']")
     private WebElement formSearch;
 
-    public GoogleCloudPage(WebDriver driver) {
+    public GoogleCloudHomePage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(this.driver, this);
     }
 
     @Override
-    public GoogleCloudPage openPage() {
+    public GoogleCloudHomePage openPage() {
         driver.navigate().to(BASE_URL);
         return this;
     }
 
-    public GoogleCloudPage searchText(SearchInput searchInput) throws InterruptedException {
+    public GoogleCloudSearchResultsPage enterSearchText(SearchInput searchInput) throws InterruptedException {
         inputSearch.click();
         inputSearch.sendKeys(searchInput.getSearchInputText());
         formSearch.submit();
         Thread.sleep(5000);
-        return this;
+        return new GoogleCloudSearchResultsPage(driver);
     }
+
+
 
 }
