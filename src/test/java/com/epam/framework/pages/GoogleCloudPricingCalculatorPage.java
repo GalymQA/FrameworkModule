@@ -94,8 +94,10 @@ public class GoogleCloudPricingCalculatorPage extends AbstractPage {
 
     private final By buttonEmailEstimateLocator = By.id("email_quote");
 
-    @FindBy(id = "input_522")
+    @FindBy(css = "input[ng-model='emailQuote.user.email']")
     private WebElement emailInput;
+
+    private final By emailInputLocator = By.cssSelector("input[id='input_513']");
 
     @FindBy(css = "button[aria-label='Send Email']")
     private WebElement buttonSendEmail;
@@ -232,19 +234,38 @@ public class GoogleCloudPricingCalculatorPage extends AbstractPage {
         return this;
     }
 
-    public YopMailHomePage switchToYopMailTab() {
+    public YopMailHomePage switchToNewlyCreatedYopMailTab() {
         JavascriptExecutor jse = (JavascriptExecutor)driver;
         jse.executeScript("window.open()");
-        ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
+        ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
         driver.switchTo().window(tabs.get(1));
         return new YopMailHomePage(driver);
     }
 
     public GoogleCloudPricingCalculatorPage sendPricingToEmail(String email) throws InterruptedException {
+        Thread.sleep(2000);
+        driver.switchTo().defaultContent().switchTo().frame(iFramePricingCalculator).switchTo().frame(iFrameMyFrame);
         emailInput.sendKeys(email);
         buttonSendEmail.click();
-        Thread.sleep(5000);
+        Thread.sleep(3000);
         return this;
+    }
+
+    public YopMailInboxPage switchToYopMailTab() {
+        ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
+        driver.switchTo().window(tabs.get(1));
+        return new YopMailInboxPage(driver);
+    }
+
+    public String getTotalCostInCalculator() {
+        driver.switchTo().defaultContent().switchTo().frame(iFramePricingCalculator).switchTo().frame(iFrameMyFrame);
+        String totalCostInCalculator = driver.findElement(By.cssSelector("h2[class='md-title'] b")).getText();
+        totalCostInCalculator = totalCostInCalculator.replaceAll("Total Estimated Cost", "")
+                .replaceAll("USD","")
+                .replaceAll("per 1 month", "")
+                .replaceAll(":", "")
+                .replaceAll("\\s+", "");
+        return totalCostInCalculator;
     }
 
 

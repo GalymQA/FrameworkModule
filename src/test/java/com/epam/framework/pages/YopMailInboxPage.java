@@ -1,5 +1,6 @@
 package com.epam.framework.pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -14,6 +15,9 @@ public class YopMailInboxPage extends AbstractPage {
 
     @FindBy(css = "div[class='bname']")
     private WebElement sectionForEmailAccountName;
+
+    @FindBy(css = "iframe[id='ifmail']")
+    private WebElement iFrameEmailContent;
 
     public YopMailInboxPage(WebDriver driver) {
         super(driver);
@@ -31,9 +35,17 @@ public class YopMailInboxPage extends AbstractPage {
     }
 
     public GoogleCloudPricingCalculatorPage switchToGoogleCloudPricingCalculatorTab() {
-        ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
+        ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
         driver.switchTo().window(tabs.get(0));
         return new GoogleCloudPricingCalculatorPage(driver);
     }
+
+    public String getTotalCostInEmail() {
+        driver.switchTo().defaultContent().switchTo().frame(iFrameEmailContent);
+        String totalCost = driver.findElements(By.cssSelector("h3")).get(1).getText();
+        totalCost = totalCost.replaceAll("USD ", "");
+        return totalCost;
+    }
+
 
 }
