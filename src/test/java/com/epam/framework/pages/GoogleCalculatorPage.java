@@ -28,20 +28,14 @@ public class GoogleCalculatorPage extends AbstractPage {
     @FindBy(css = "md-select[id='select_99']")
     private WebElement optionsForOperatingSystem;
 
-    @FindBy(css = "md-option[id='select_option_88']")
-    private WebElement optionFreeOperatingSystem;
-
     @FindBy(css = "md-select[id='select_103']")
     private WebElement optionsForVMClass;
-
-    @FindBy(css = "md-option[value='regular']")
-    private WebElement optionRegularVMClass;
 
     @FindBy(css = "md-select[id='select_111']")
     private WebElement optionsForSeries;
 
     @FindBy(css = "md-select[id=select_113]")
-    private WebElement optionsForMachineType;
+    private WebElement optionsForInstanceType;
 
     @FindBy(xpath = "//form[@name='ComputeEngineForm'] //md-checkbox[@aria-label='Add GPUs' and @aria-disabled='false' and @aria-checked='false']")
     private WebElement checkboxAddGPUs;
@@ -64,29 +58,10 @@ public class GoogleCalculatorPage extends AbstractPage {
     @FindBy(xpath = "//form[@name='ComputeEngineForm'] //button[@aria-label='Add to Estimate']")
     private WebElement buttonAddToEstimateInComputeEngineForm;
 
-    @FindBy(id = "email_quote")
-    private WebElement buttonEmailEstimate;
-
-    @FindBy(css = "input[ng-model='emailQuote.user.email']")
-    private WebElement emailInput;
-
     @FindBy(css = "button[aria-label='Send Email']")
     private WebElement buttonSendEmail;
 
-    private final By optionFreeOperatingSystemLocator = By.cssSelector("md-option[id='select_option_88']");
-
-
-
     private final By emailInputLocator = By.cssSelector("input[ng-model='emailQuote.user.email']");
-
-    private final By optionForCommittedUsageOneYearLocator = By.cssSelector("md-option[id='select_option_126']");
-    private final By optionLocalSSD2x375GbLocator = By.cssSelector("md-option[id='select_option_436']");
-    private final By optionRegularVMClassLocator = By.cssSelector("md-option[value='regular']");
-    private final By optionN1SeriesLocator = By.cssSelector("md-option[id='select_option_198']");
-    private final By optionN1Standard8Locator = By.cssSelector("md-option[id=select_option_415]");
-    private final By optionNvidiaTeslaP100Locator = By.cssSelector("md-option[value='NVIDIA_TESLA_P100']");
-    private final By optionOneGPULocator = By.cssSelector("md-option[id='select_option_460']");
-    private final By optionFrankfurtDataCenterLocator = By.cssSelector("md-option[id='select_option_222']");
     private final By buttonEmailEstimateLocator = By.id("email_quote");
 
     public GoogleCalculatorPage(WebDriver driver) {
@@ -115,17 +90,19 @@ public class GoogleCalculatorPage extends AbstractPage {
     public GoogleCalculatorPage enterOperatingSystem(TestData testData) {
         driver.switchTo().defaultContent().switchTo().frame(iFramePricingCalculator).switchTo().frame(iFrameMyFrame);
         optionsForOperatingSystem.click();
+        String xpathString = String.format("//md-option //div[contains(text(),'%s')]", testData.getOperatingSystem());
         WebElement optionFreeOperatingSystem = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
-                .until(ExpectedConditions.elementToBeClickable(optionFreeOperatingSystemLocator));
+                .until(ExpectedConditions.elementToBeClickable(By.xpath(xpathString)));
         optionFreeOperatingSystem.click();
         return this;
     }
 
-    public GoogleCalculatorPage enterVMClass(TestData testData) {
+    public GoogleCalculatorPage enterVirtualMachineClass(TestData testData) {
         driver.switchTo().defaultContent().switchTo().frame(iFramePricingCalculator).switchTo().frame(iFrameMyFrame);
         optionsForVMClass.click();
+        String xpathString = String.format("//md-option //div[contains(text(),'%s')]", testData.getVirtualMachineClass());
         WebElement optionRegularVMClass = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
-                .until(ExpectedConditions.elementToBeClickable(optionRegularVMClassLocator));
+                .until(ExpectedConditions.elementToBeClickable(By.xpath(xpathString)));
         optionRegularVMClass.click();
         return this;
     }
@@ -133,18 +110,20 @@ public class GoogleCalculatorPage extends AbstractPage {
     public GoogleCalculatorPage enterSeries(TestData testData) {
         driver.switchTo().defaultContent().switchTo().frame(iFramePricingCalculator).switchTo().frame(iFrameMyFrame);
         optionsForSeries.click();
-        WebElement optionN1Series = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
-                .until(ExpectedConditions.elementToBeClickable(optionN1SeriesLocator));
-        optionN1Series.click();
+        String xpathString = String.format("//md-option //div[contains(text(),'%s')]", testData.getInstanceSeries());
+        WebElement optionInstanceSeries = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
+                .until(ExpectedConditions.elementToBeClickable(By.xpath(xpathString)));
+        optionInstanceSeries.click();
         return this;
     }
 
-    public GoogleCalculatorPage enterMachineType(TestData testData) {
+    public GoogleCalculatorPage enterInstanceType(TestData testData) {
         driver.switchTo().defaultContent().switchTo().frame(iFramePricingCalculator).switchTo().frame(iFrameMyFrame);
-        optionsForMachineType.click();
-        WebElement optionN1Standard8 = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
-                .until(ExpectedConditions.elementToBeClickable(optionN1Standard8Locator));
-        optionN1Standard8.click();
+        optionsForInstanceType.click();
+        String xpathString = String.format("//md-option //div[contains(text(),'%s')]", testData.getInstanceType());
+        WebElement optionInstanceType = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
+                .until(ExpectedConditions.elementToBeClickable(By.xpath(xpathString)));
+        optionInstanceType.click();
         return this;
     }
 
@@ -157,45 +136,53 @@ public class GoogleCalculatorPage extends AbstractPage {
     public GoogleCalculatorPage enterGPUType(TestData testData) {
         driver.switchTo().defaultContent().switchTo().frame(iFramePricingCalculator).switchTo().frame(iFrameMyFrame);
         optionsForGPUType.click();
-        WebElement optionNvidiaTeslaP100 = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
-                .until(ExpectedConditions.elementToBeClickable(optionNvidiaTeslaP100Locator));
-        optionNvidiaTeslaP100.click();
+        String xpathString = String.format("//md-option //div[contains(text(),'%s')]", testData.getGPUType());
+        WebElement optionGPUType = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
+                .until(ExpectedConditions.elementToBeClickable(By.xpath(xpathString)));
+        optionGPUType.click();
         return this;
     }
 
     public GoogleCalculatorPage enterNumberOfGPUs(TestData testData) {
         driver.switchTo().defaultContent().switchTo().frame(iFramePricingCalculator).switchTo().frame(iFrameMyFrame);
         optionsForNumberOfGPUs.click();
-        WebElement optionOneGPU = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
-                .until(ExpectedConditions.elementToBeClickable(optionOneGPULocator));
-        optionOneGPU.click();
+        String xpathString = String.format("//div[@id='select_container_452'] //md-option //div[contains(text(),'%s')]",
+                testData.getNumberGPUs());
+        WebElement optionNumberGPUs = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
+                .until(ExpectedConditions.elementToBeClickable(By.xpath(xpathString)));
+        optionNumberGPUs.click();
         return this;
     }
 
     public GoogleCalculatorPage enterLocalSSD(TestData testData) {
         driver.switchTo().defaultContent().switchTo().frame(iFramePricingCalculator).switchTo().frame(iFrameMyFrame);
         optionsForLocalSSD.click();
-        WebElement optionLocalSSD2x375Gb = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
-                .until(ExpectedConditions.elementToBeClickable(optionLocalSSD2x375GbLocator));
-        optionLocalSSD2x375Gb.click();
+        String xpathString = String.format("//md-option //div[contains(text(),'%s')]", testData.getLocalSSD());
+        WebElement optionLocalSSD = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
+                .until(ExpectedConditions.elementToBeClickable(By.xpath(xpathString)));
+        optionLocalSSD.click();
         return this;
     }
 
     public GoogleCalculatorPage enterDataCenterLocation(TestData testData) {
         driver.switchTo().defaultContent().switchTo().frame(iFramePricingCalculator).switchTo().frame(iFrameMyFrame);
         optionsForDataCenterLocation.click();
-        WebElement optionFrankfurtDataCenter = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
-                .until(ExpectedConditions.elementToBeClickable(optionFrankfurtDataCenterLocator));
-        optionFrankfurtDataCenter.click();
+        String xpathString = String.format("//div[@id='select_container_122'] //md-option //div[contains(text(),'%s')]",
+                testData.getDatacenterLocation());
+        WebElement optionDatacenterLocation = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
+                .until(ExpectedConditions.elementToBeClickable(By.xpath(xpathString)));
+        optionDatacenterLocation.click();
         return this;
     }
 
     public GoogleCalculatorPage enterCommittedUsage(TestData testData) {
         driver.switchTo().defaultContent().switchTo().frame(iFramePricingCalculator).switchTo().frame(iFrameMyFrame);
         optionsForCommittedUsage.click();
-        WebElement optionForCommittedUsageOneYear = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
-                .until(ExpectedConditions.elementToBeClickable(optionForCommittedUsageOneYearLocator));
-        optionForCommittedUsageOneYear.click();
+        String xpathString = String.format("//div[@id='select_container_129'] //md-option //div[contains(text(),'%s')]",
+                testData.getCommittedUsage());
+        WebElement optionCommittedUsage = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
+                .until(ExpectedConditions.elementToBeClickable(By.xpath(xpathString)));
+        optionCommittedUsage.click();
         return this;
     }
 
