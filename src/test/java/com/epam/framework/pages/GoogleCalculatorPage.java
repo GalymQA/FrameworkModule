@@ -25,34 +25,28 @@ public class GoogleCalculatorPage extends AbstractPage {
     @FindBy(id = "input_86")
     private WebElement optionsForNumberOfInstances;
 
-    @FindBy(css = "md-select[id='select_99']")
+    @FindBy(id = "select_value_label_77")
     private WebElement optionsForOperatingSystem;
 
-    @FindBy(css = "md-select[id='select_103']")
+    @FindBy(id = "select_value_label_78")
     private WebElement optionsForVMClass;
 
-    @FindBy(css = "md-select[id='select_111']")
+    @FindBy(id = "select_value_label_80")
     private WebElement optionsForSeries;
 
-    @FindBy(css = "md-select[id=select_113]")
+    @FindBy(id = "select_value_label_81")
     private WebElement optionsForInstanceType;
 
     @FindBy(xpath = "//form[@name='ComputeEngineForm'] //md-checkbox[@aria-label='Add GPUs' and @aria-disabled='false' and @aria-checked='false']")
     private WebElement checkboxAddGPUs;
 
-    @FindBy(css = "md-select[id='select_449']")
-    private WebElement optionsForGPUType;
-
-    @FindBy(css = "md-select[id='select_451']")
-    private WebElement optionsForNumberOfGPUs;
-
-    @FindBy(css = "md-select[id='select_410']")
+    @FindBy(id = "select_value_label_409")
     private WebElement optionsForLocalSSD;
 
-    @FindBy(css = "md-select[id='select_121']")
+    @FindBy(id = "select_value_label_84")
     private WebElement optionsForDataCenterLocation;
 
-    @FindBy(css = "md-select[id='select_128']")
+    @FindBy(id = "select_value_label_85")
     private WebElement optionsForCommittedUsage;
 
     @FindBy(xpath = "//form[@name='ComputeEngineForm'] //button[@aria-label='Add to Estimate']")
@@ -61,6 +55,8 @@ public class GoogleCalculatorPage extends AbstractPage {
     @FindBy(css = "button[aria-label='Send Email']")
     private WebElement buttonSendEmail;
 
+    private final By optionsForGPUTypeLocator = By.cssSelector("md-select[placeholder='GPU type']");
+    private final By optionsForNumberOfGPUsLocator = By.cssSelector("md-select[placeholder='Number of GPUs']");
     private final By emailInputLocator = By.cssSelector("input[ng-model='emailQuote.user.email']");
     private final By buttonEmailEstimateLocator = By.id("email_quote");
 
@@ -135,6 +131,8 @@ public class GoogleCalculatorPage extends AbstractPage {
 
     public GoogleCalculatorPage enterGPUType(TestData testData) {
         driver.switchTo().defaultContent().switchTo().frame(iFramePricingCalculator).switchTo().frame(iFrameMyFrame);
+        WebElement optionsForGPUType = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
+                .until(ExpectedConditions.elementToBeClickable(optionsForGPUTypeLocator));
         optionsForGPUType.click();
         String xpathString = String.format("//md-option //div[contains(text(),'%s')]", testData.getGPUType());
         WebElement optionGPUType = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
@@ -145,6 +143,8 @@ public class GoogleCalculatorPage extends AbstractPage {
 
     public GoogleCalculatorPage enterNumberOfGPUs(TestData testData) {
         driver.switchTo().defaultContent().switchTo().frame(iFramePricingCalculator).switchTo().frame(iFrameMyFrame);
+        WebElement optionsForNumberOfGPUs = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
+                .until(ExpectedConditions.elementToBeClickable(optionsForNumberOfGPUsLocator));
         optionsForNumberOfGPUs.click();
         String xpathString = String.format("//div[@id='select_container_452'] //md-option //div[contains(text(),'%s')]",
                 testData.getNumberGPUs());
