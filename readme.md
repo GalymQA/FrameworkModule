@@ -43,3 +43,7 @@ Object. Автоматизировать следующий сценарий:
 12. Нажать SEND EMAIL
 13. Дождаться письма с рассчетом стоимости и проверить что Total Estimated Monthly Cost в письме совпадает с тем, что
     отображается в калькуляторе
+
+### How to run
+
+mvn -Dbrowser=chrome -Dsurefire.suiteXmlFiles=src/test/resources/testng-all.xml -Denvironment=dev clean test

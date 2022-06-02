@@ -1,6 +1,6 @@
 package com.epam.framework.pages;
 
-import com.epam.framework.model.SearchInput;
+import com.epam.framework.model.TestData;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -16,10 +16,6 @@ public class YopMailHomePage extends AbstractPage {
     @FindBy(id = "refreshbut")
     private WebElement buttonProceedToInbox;
 
-
-
-
-
     public YopMailHomePage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(this.driver, this);
@@ -31,14 +27,11 @@ public class YopMailHomePage extends AbstractPage {
         return this;
     }
 
-    public YopMailInboxPage createEmailAccount(SearchInput searchInput) throws InterruptedException {
+    public YopMailInboxPage createEmailAccount(TestData testData) {
         inputForEmailAccount.click();
-        inputForEmailAccount.sendKeys(searchInput.getEmailAccount());
+        inputForEmailAccount.sendKeys(testData.getEmailAccount());
         buttonProceedToInbox.click();
-        Thread.sleep(5000);
         return new YopMailInboxPage(driver);
     }
-
-
 
 }

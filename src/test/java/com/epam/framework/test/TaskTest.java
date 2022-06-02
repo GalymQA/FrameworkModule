@@ -1,27 +1,41 @@
 package com.epam.framework.test;
 
-import com.epam.framework.model.SearchInput;
-import com.epam.framework.pages.GoogleCloudHomePage;
-import com.epam.framework.pages.GoogleCloudPricingCalculatorPage;
+import com.epam.framework.model.TestData;
+import com.epam.framework.pages.GoogleHomePage;
+import com.epam.framework.pages.GoogleCalculatorPage;
 import com.epam.framework.pages.YopMailHomePage;
 import com.epam.framework.pages.YopMailInboxPage;
 import com.epam.framework.service.SearchInputCreator;
+import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
 
 public class TaskTest extends CommonConditions {
 
-    @Test
+    @Test(description = "Verify delivery of a Google Cloud price quote to Yop Mail")
     public void verifyPriceTest() throws InterruptedException {
-        SearchInput testData = SearchInputCreator.withSearchInputsFromProperty();
-        GoogleCloudPricingCalculatorPage googleCloudPricingCalculatorPage = new GoogleCloudHomePage(driver)
+        TestData testData = SearchInputCreator.withSearchInputsFromProperty();
+        GoogleCalculatorPage googleCalculatorPage = enterSearchText(testData);
+        googleCalculatorPage = enterDetailsOfInstances(googleCalculatorPage, testData);
+        String totalCostInCalculator = getTotalCostInCalculator(googleCalculatorPage);
+        YopMailInboxPage yopMailInboxPage = createEmailAccountAtYopMail(googleCalculatorPage, testData);
+        String createdEmailName = getCreatedEmailName(yopMailInboxPage);
+        yopMailInboxPage = deleteAllEmailsInInbox(yopMailInboxPage);
+        googleCalculatorPage = sendPriceToEmail(googleCalculatorPage, createdEmailName);
+        String totalCostInEmail = getTotalCostInEmail(googleCalculatorPage);
+        Assert.assertEquals(totalCostInCalculator, totalCostInEmail, "Calculator and email costs are different.");
+    }
+
+    private GoogleCalculatorPage enterSearchText(TestData testData) {
+        return new GoogleHomePage(driver)
                 .openPage()
                 .enterSearchText(testData)
-                .clickPricingCalculatorLink()
-                .chooseSectionComputeEngine()
+                .clickPricingCalculatorLink();
+    }
+
+    private GoogleCalculatorPage enterDetailsOfInstances(
+            GoogleCalculatorPage googleCalculatorPage,
+            TestData testData) {
+        return googleCalculatorPage.chooseSectionComputeEngine()
                 .enterNumberOfInstances(testData)
                 .enterOperatingSystem(testData)
                 .enterVMClass(testData)
@@ -34,29 +48,37 @@ public class TaskTest extends CommonConditions {
                 .enterDataCenterLocation(testData)
                 .enterCommittedUsage(testData)
                 .requestFormToSendEstimates(testData);
-        YopMailHomePage yopMailHomePage = googleCloudPricingCalculatorPage.switchToNewlyCreatedYopMailTab();
-        YopMailInboxPage yopMailInboxPage = yopMailHomePage
+    }
+
+    private String getTotalCostInCalculator(GoogleCalculatorPage googleCalculatorPage) {
+        return googleCalculatorPage.getTotalCostInCalculator();
+    }
+
+    private YopMailInboxPage createEmailAccountAtYopMail(
+            GoogleCalculatorPage googleCalculatorPage,
+            TestData testData) {
+        YopMailHomePage yopMailHomePage = googleCalculatorPage.createYopMailTabAndSwitch();
+        return yopMailHomePage
                 .openPage()
                 .createEmailAccount(testData);
-        String createdEmail = yopMailInboxPage.getCreatedEmail();
-        googleCloudPricingCalculatorPage = yopMailInboxPage.switchToGoogleCloudPricingCalculatorTab();
-        String totalCostInCalculator = googleCloudPricingCalculatorPage.getTotalCostInCalculator();
+    }
 
-        System.out.println("********************************************");
-        System.out.println("totalCostInCalculator: " + totalCostInCalculator);
-        System.out.println("********************************************");
+    private String getCreatedEmailName(YopMailInboxPage yopMailInboxPage) {
+        return yopMailInboxPage.getCreatedEmailName();
+    }
 
-        String totalCostInEmail =googleCloudPricingCalculatorPage
-                .sendPricingToEmail(createdEmail)
-                .switchToYopMailTab().getTotalCostInEmail();
+    private YopMailInboxPage deleteAllEmailsInInbox(YopMailInboxPage yopMailInboxPage) throws InterruptedException {
+        return yopMailInboxPage.deleteAllEmailsInInbox();
+    }
 
-        System.out.println("********************************************");
-        System.out.println("totalCostInEmail: " + totalCostInEmail);
-        System.out.println("********************************************");
+    private GoogleCalculatorPage sendPriceToEmail(
+            GoogleCalculatorPage googleCalculatorPage,
+            String createdEmailName) throws InterruptedException {
+        return googleCalculatorPage.sendPricingToEmail(createdEmailName);
+    }
 
-
-        assertThat(totalCostInCalculator, is(equalTo(totalCostInEmail)));
-
+    private String getTotalCostInEmail(GoogleCalculatorPage googleCalculatorPage) throws InterruptedException {
+        return googleCalculatorPage.switchToYopMailTab().getTotalCostInEmail();
     }
 
 }

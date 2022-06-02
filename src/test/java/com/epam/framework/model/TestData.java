@@ -1,6 +1,6 @@
 package com.epam.framework.model;
 
-public class SearchInput {
+public class TestData {
 
     private String searchInputText;
     private String numberOfInstances;
@@ -18,7 +18,7 @@ public class SearchInput {
         return emailAccount;
     }
 
-    public SearchInput(String searchInputText, String numberOfInstances, String emailAccount) {
+    public TestData(String searchInputText, String numberOfInstances, String emailAccount) {
         this.searchInputText = searchInputText;
         this.numberOfInstances = numberOfInstances;
         this.emailAccount = emailAccount;

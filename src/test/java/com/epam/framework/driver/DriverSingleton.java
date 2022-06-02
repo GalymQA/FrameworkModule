@@ -9,8 +9,7 @@ public class DriverSingleton {
 
     private static WebDriver driver;
 
-    private DriverSingleton() {
-    }
+    private DriverSingleton() {}
 
     public static WebDriver getDriver() {
         if (null == driver) {
