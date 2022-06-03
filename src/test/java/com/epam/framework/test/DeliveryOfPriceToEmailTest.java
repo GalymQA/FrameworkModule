@@ -13,7 +13,7 @@ import com.epam.framework.service.YopMailInputCreator;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class TaskTest extends CommonConditions {
+public class DeliveryOfPriceToEmailTest extends CommonConditions {
 
     @Test(description = "Verify delivery of a Google Cloud price quote to Yop Mail")
     public void verifyPriceTest() throws InterruptedException {

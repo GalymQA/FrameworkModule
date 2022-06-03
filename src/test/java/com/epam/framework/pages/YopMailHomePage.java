@@ -27,6 +27,10 @@ public class YopMailHomePage extends AbstractPage {
         return this;
     }
 
+    public String getTitle() {
+        return driver.getTitle();
+    }
+
     public YopMailInboxPage createEmailAccount(YopMailInput yopMailInput) {
         inputForEmailAccount.click();
         inputForEmailAccount.sendKeys(yopMailInput.getEmailAccount());

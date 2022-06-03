@@ -27,6 +27,10 @@ public class GoogleHomePage extends AbstractPage {
         return this;
     }
 
+    public String getTitle() {
+        return driver.getTitle();
+    }
+
     public GoogleSearchResultsPage enterSearchText(SearchInput searchInput) {
         inputSearch.click();
         inputSearch.sendKeys(searchInput.getSearchInputText());
