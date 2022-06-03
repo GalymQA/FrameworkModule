@@ -1,11 +1,15 @@
 package com.epam.framework.test;
 
-import com.epam.framework.model.TestData;
+import com.epam.framework.model.PricingInputs;
+import com.epam.framework.model.SearchInput;
+import com.epam.framework.model.YopMailInput;
 import com.epam.framework.pages.GoogleHomePage;
 import com.epam.framework.pages.GoogleCalculatorPage;
 import com.epam.framework.pages.YopMailHomePage;
 import com.epam.framework.pages.YopMailInboxPage;
+import com.epam.framework.service.PricingInputsCreator;
 import com.epam.framework.service.SearchInputCreator;
+import com.epam.framework.service.YopMailInputCreator;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -13,41 +17,44 @@ public class TaskTest extends CommonConditions {
 
     @Test(description = "Verify delivery of a Google Cloud price quote to Yop Mail")
     public void verifyPriceTest() throws InterruptedException {
-        TestData testData = SearchInputCreator.withSearchInputsFromProperty();
-        GoogleCalculatorPage googleCalculatorPage = enterSearchText(testData);
-        googleCalculatorPage = enterDetailsOfInstances(googleCalculatorPage, testData);
+        SearchInput searchInput = SearchInputCreator.withSearchInputFromProperty();
+        PricingInputs pricingInputs = PricingInputsCreator.withPricingInputsFromProperty();
+        YopMailInput yopMailInput = YopMailInputCreator.withYopMailInputFromProperty();
+        GoogleCalculatorPage googleCalculatorPage = enterSearchText(searchInput);
+        googleCalculatorPage = enterDetailsOfInstances(googleCalculatorPage, pricingInputs);
         String totalCostInCalculator = getTotalCostInCalculator(googleCalculatorPage);
-        YopMailInboxPage yopMailInboxPage = createEmailAccountAtYopMail(googleCalculatorPage, testData);
+        YopMailInboxPage yopMailInboxPage = createEmailAccountAtYopMail(googleCalculatorPage, yopMailInput);
         String createdEmailName = getCreatedEmailName(yopMailInboxPage);
         yopMailInboxPage = deleteAllEmailsInInbox(yopMailInboxPage);
         googleCalculatorPage = sendPriceToEmail(googleCalculatorPage, createdEmailName);
         String totalCostInEmail = getTotalCostInEmail(googleCalculatorPage);
+
         Assert.assertEquals(totalCostInCalculator, totalCostInEmail, "Calculator and email costs are different.");
     }
 
-    private GoogleCalculatorPage enterSearchText(TestData testData) {
+    private GoogleCalculatorPage enterSearchText(SearchInput searchInput) {
         return new GoogleHomePage(driver)
                 .openPage()
-                .enterSearchText(testData)
+                .enterSearchText(searchInput)
                 .clickPricingCalculatorLink();
     }
 
     private GoogleCalculatorPage enterDetailsOfInstances(
             GoogleCalculatorPage googleCalculatorPage,
-            TestData testData) {
+            PricingInputs pricingInputs) {
         return googleCalculatorPage.chooseSectionComputeEngine()
-                .enterNumberOfInstances(testData)
-                .enterOperatingSystem(testData)
-                .enterVirtualMachineClass(testData)
-                .enterSeries(testData)
-                .enterInstanceType(testData)
+                .enterNumberOfInstances(pricingInputs)
+                .enterOperatingSystem(pricingInputs)
+                .enterVirtualMachineClass(pricingInputs)
+                .enterSeries(pricingInputs)
+                .enterInstanceType(pricingInputs)
                 .checkAddGPUsCheckbox()
-                .enterGPUType(testData)
-                .enterNumberOfGPUs(testData)
-                .enterLocalSSD(testData)
-                .enterDataCenterLocation(testData)
-                .enterCommittedUsage(testData)
-                .requestFormToSendEstimates(testData);
+                .enterGPUType(pricingInputs)
+                .enterNumberOfGPUs(pricingInputs)
+                .enterLocalSSD(pricingInputs)
+                .enterDataCenterLocation(pricingInputs)
+                .enterCommittedUsage(pricingInputs)
+                .requestFormToSendEstimates(pricingInputs);
     }
 
     private String getTotalCostInCalculator(GoogleCalculatorPage googleCalculatorPage) {
@@ -56,24 +63,24 @@ public class TaskTest extends CommonConditions {
 
     private YopMailInboxPage createEmailAccountAtYopMail(
             GoogleCalculatorPage googleCalculatorPage,
-            TestData testData) {
+            YopMailInput yopMailInput) {
         YopMailHomePage yopMailHomePage = googleCalculatorPage.createYopMailTabAndSwitch();
         return yopMailHomePage
                 .openPage()
-                .createEmailAccount(testData);
+                .createEmailAccount(yopMailInput);
     }
 
     private String getCreatedEmailName(YopMailInboxPage yopMailInboxPage) {
         return yopMailInboxPage.getCreatedEmailName();
     }
 
-    private YopMailInboxPage deleteAllEmailsInInbox(YopMailInboxPage yopMailInboxPage) throws InterruptedException {
+    private YopMailInboxPage deleteAllEmailsInInbox(YopMailInboxPage yopMailInboxPage) {
         return yopMailInboxPage.deleteAllEmailsInInbox();
     }
 
     private GoogleCalculatorPage sendPriceToEmail(
             GoogleCalculatorPage googleCalculatorPage,
-            String createdEmailName) throws InterruptedException {
+            String createdEmailName) {
         return googleCalculatorPage.sendPricingToEmail(createdEmailName);
     }
 

@@ -1,6 +1,6 @@
 package com.epam.framework.pages;
 
-import com.epam.framework.model.TestData;
+import com.epam.framework.model.YopMailInput;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -27,9 +27,9 @@ public class YopMailHomePage extends AbstractPage {
         return this;
     }
 
-    public YopMailInboxPage createEmailAccount(TestData testData) {
+    public YopMailInboxPage createEmailAccount(YopMailInput yopMailInput) {
         inputForEmailAccount.click();
-        inputForEmailAccount.sendKeys(testData.getEmailAccount());
+        inputForEmailAccount.sendKeys(yopMailInput.getEmailAccount());
         buttonProceedToInbox.click();
         return new YopMailInboxPage(driver);
     }

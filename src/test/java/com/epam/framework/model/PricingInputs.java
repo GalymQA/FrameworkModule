@@ -1,8 +1,7 @@
 package com.epam.framework.model;
 
-public class TestData {
+public class PricingInputs {
 
-    private final String searchInputText;
     private final String numberOfInstances;
     private final String operatingSystem;
     private final String virtualMachineClass;
@@ -13,11 +12,6 @@ public class TestData {
     private final String localSSD;
     private final String datacenterLocation;
     private final String committedUsage;
-    private final String emailAccount;
-
-    public String getSearchInputText() {
-        return searchInputText;
-    }
 
     public String getNumberOfInstances() {
         return numberOfInstances;
@@ -59,23 +53,16 @@ public class TestData {
         return committedUsage;
     }
 
-    public String getEmailAccount() {
-        return emailAccount;
-    }
-
-    public TestData(String searchInputText,
-                    String numberOfInstances,
-                    String operatingSystem,
-                    String virtualMachineClass,
-                    String instanceSeries,
-                    String instanceType,
-                    String GPUType,
-                    String numberGPUs,
-                    String localSSD,
-                    String datacenterLocation,
-                    String committedUsage,
-                    String emailAccount) {
-        this.searchInputText = searchInputText;
+    public PricingInputs(String numberOfInstances,
+                         String operatingSystem,
+                         String virtualMachineClass,
+                         String instanceSeries,
+                         String instanceType,
+                         String GPUType,
+                         String numberGPUs,
+                         String localSSD,
+                         String datacenterLocation,
+                         String committedUsage) {
         this.numberOfInstances = numberOfInstances;
         this.operatingSystem = operatingSystem;
         this.virtualMachineClass = virtualMachineClass;
@@ -86,7 +73,6 @@ public class TestData {
         this.localSSD = localSSD;
         this.datacenterLocation = datacenterLocation;
         this.committedUsage = committedUsage;
-        this.emailAccount = emailAccount;
     }
 
 }
