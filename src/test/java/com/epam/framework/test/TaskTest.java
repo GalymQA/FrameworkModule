@@ -54,7 +54,7 @@ public class TaskTest extends CommonConditions {
                 .enterLocalSSD(pricingInputs)
                 .enterDataCenterLocation(pricingInputs)
                 .enterCommittedUsage(pricingInputs)
-                .requestFormToSendEstimates(pricingInputs);
+                .requestFormToSendEstimates();
     }
 
     private String getTotalCostInCalculator(GoogleCalculatorPage googleCalculatorPage) {

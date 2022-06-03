@@ -11,7 +11,8 @@ public class GoogleSearchResultsPage extends AbstractPage {
 
     private final String BASE_URL = "https://cloud.google.com/s/";
 
-    private final By linkPricingCalculatorLocator = By.xpath("//div[@class='gs-title']/a[@class='gs-title']/b[text()='Google Cloud Platform Pricing Calculator']");
+    private final By linkPricingCalculatorLocator =
+            By.xpath("//div[@class='gs-title']/a[@class='gs-title']/b[text()='Google Cloud Platform Pricing Calculator']");
 
     @Override
     public GoogleSearchResultsPage openPage() {

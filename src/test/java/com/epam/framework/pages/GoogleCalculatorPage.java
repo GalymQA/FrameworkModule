@@ -186,7 +186,7 @@ public class GoogleCalculatorPage extends AbstractPage {
         return this;
     }
 
-    public GoogleCalculatorPage requestFormToSendEstimates(PricingInputs pricingInputs) {
+    public GoogleCalculatorPage requestFormToSendEstimates() {
         driver.switchTo().defaultContent().switchTo().frame(iFramePricingCalculator).switchTo().frame(iFrameMyFrame);
         buttonAddToEstimateInComputeEngineForm.click();
         WebElement buttonEmailEstimate = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
@@ -224,13 +224,15 @@ public class GoogleCalculatorPage extends AbstractPage {
         driver.switchTo().defaultContent().switchTo().frame(iFramePricingCalculator).switchTo().frame(iFrameMyFrame);
         WebElement totalCostWebElement = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
                 .until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("h2[class='md-title'] b")));
-        String totalCost = totalCostWebElement.getText();
-        totalCost = totalCost.replaceAll("Total Estimated Cost", "")
+        return getNumericPart(totalCostWebElement.getText());
+    }
+
+    private String getNumericPart(String string) {
+        return string.replaceAll("Total Estimated Cost", "")
                 .replaceAll("USD", "")
                 .replaceAll("per 1 month", "")
                 .replaceAll(":", "")
                 .replaceAll("\\s+", "");
-        return totalCost;
     }
 
 }

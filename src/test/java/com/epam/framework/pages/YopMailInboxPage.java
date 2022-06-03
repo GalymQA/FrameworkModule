@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class YopMailInboxPage extends AbstractPage {
 
@@ -73,20 +74,26 @@ public class YopMailInboxPage extends AbstractPage {
 
     public String getTotalCostInEmail() throws InterruptedException {
         driver.switchTo().defaultContent().switchTo().frame(iFrameInbox);
+        int numberOfClicks = 0;
         while (checkboxesInEmails.size() == 0) {
             driver.switchTo().defaultContent();
             buttonRefresh.click();
-            Thread.sleep(1000);
+            Thread.sleep(TimeUnit.SECONDS.toMillis(WAIT_SECONDS_AFTER_CLICK));
             driver.switchTo().defaultContent().switchTo().frame(iFrameInbox);
+            if (++numberOfClicks >= MAX_NUMBER_OF_CLICKS) {
+                break;
+            }
         }
         driver.switchTo().defaultContent().switchTo().frame(iFrameInbox);
         singleEmailAfterDelete.click();
         driver.switchTo().defaultContent().switchTo().frame(iFrameEmailContent);
         WebElement singleEmailBody = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
                 .until(ExpectedConditions.visibilityOfElementLocated(singleEmailTotalCostLocator));
-        String totalCost = singleEmailBody.getText();
-        totalCost = totalCost.replaceAll("Estimated Monthly Cost: USD ", "");
-        return totalCost;
+        return getNumericPart(singleEmailBody.getText());
+    }
+
+    private String getNumericPart(String string) {
+        return string.replaceAll("Estimated Monthly Cost: USD ", "");
     }
 
 }
