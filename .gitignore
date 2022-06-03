@@ -1,7 +1,4 @@
 .idea
 .iml
 *.iml
-*.out
-out/
 target/
-test-output/
