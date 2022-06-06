@@ -22,43 +22,49 @@ public class GoogleCalculatorPage extends AbstractPage {
     @FindBy(xpath = "//iframe[@id = 'myFrame']")
     private WebElement iFrameMyFrame;
 
-    @FindBy(id = "input_85")
+    @FindBy(css = "input[ng-model='listingCtrl.computeServer.quantity']")
     private WebElement optionsForNumberOfInstances;
 
-    @FindBy(id = "select_value_label_77")
+    @FindBy(css = "md-select[ng-model='listingCtrl.computeServer.os']")
     private WebElement optionsForOperatingSystem;
 
-    @FindBy(id = "select_value_label_78")
+    @FindBy(css = "md-select[ng-model='listingCtrl.computeServer.class']")
     private WebElement optionsForVMClass;
 
-    @FindBy(id = "select_value_label_80")
+    @FindBy(css = "md-select[ng-model='listingCtrl.computeServer.series']")
     private WebElement optionsForSeries;
 
-    @FindBy(id = "select_value_label_81")
+    @FindBy(css = "md-select[ng-model='listingCtrl.computeServer.instance']")
     private WebElement optionsForInstanceType;
 
-    @FindBy(xpath = "//form[@name='ComputeEngineForm'] //md-checkbox[@aria-label='Add GPUs' and @aria-disabled='false' and @aria-checked='false']")
+    @FindBy(css = "md-checkbox[ng-model='listingCtrl.computeServer.addGPUs']")
     private WebElement checkboxAddGPUs;
 
-    @FindBy(id = "select_value_label_409")
+    @FindBy(css = "md-select[ng-model='listingCtrl.computeServer.ssd']")
     private WebElement optionsForLocalSSD;
 
-    @FindBy(id = "select_value_label_83")
+    @FindBy(css = "md-select[ng-model='listingCtrl.computeServer.location']")
     private WebElement optionsForDataCenterLocation;
 
-    @FindBy(id = "select_value_label_84")
+    @FindBy(css = "md-select[ng-model='listingCtrl.computeServer.cud']")
     private WebElement optionsForCommittedUsage;
 
-    @FindBy(xpath = "//form[@name='ComputeEngineForm'] //button[@aria-label='Add to Estimate']")
+    @FindBy(css = "button[ng-click='listingCtrl.addComputeServer(ComputeEngineForm);']")
     private WebElement buttonAddToEstimateInComputeEngineForm;
 
     @FindBy(css = "button[aria-label='Send Email']")
     private WebElement buttonSendEmail;
 
-    private final By optionsForGPUTypeLocator = By.cssSelector("md-select[placeholder='GPU type']");
-    private final By optionsForNumberOfGPUsLocator = By.cssSelector("md-select[placeholder='Number of GPUs']");
-    private final By emailInputLocator = By.cssSelector("input[ng-model='emailQuote.user.email']");
+    private final By optionsForGPUTypeLocator =
+            By.cssSelector("md-select[ng-model='listingCtrl.computeServer.gpuType']");
+    private final By optionsForGPUCountLocator =
+            By.cssSelector("md-select[ng-model='listingCtrl.computeServer.gpuCount']");
+    private final By emailInputLocator =
+            By.cssSelector("input[ng-model='emailQuote.user.email']");
     private final By buttonEmailEstimateLocator = By.id("email_quote");
+    private final By totalEstimatedCostLocator =
+            By.cssSelector("h2[class='md-title'] b");
+
 
     public GoogleCalculatorPage(WebDriver driver) {
         super(driver);
@@ -86,7 +92,8 @@ public class GoogleCalculatorPage extends AbstractPage {
     public GoogleCalculatorPage enterOperatingSystem(PricingInputs pricingInputs) {
         driver.switchTo().defaultContent().switchTo().frame(iFramePricingCalculator).switchTo().frame(iFrameMyFrame);
         optionsForOperatingSystem.click();
-        String xpathString = String.format("//md-option //div[contains(text(),'%s')]", pricingInputs.getOperatingSystem());
+        String xpathString = String.format("//md-option //div[contains(text(),'%s')]",
+                pricingInputs.getOperatingSystem());
         WebElement optionFreeOperatingSystem = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
                 .until(ExpectedConditions.elementToBeClickable(By.xpath(xpathString)));
         optionFreeOperatingSystem.click();
@@ -96,7 +103,8 @@ public class GoogleCalculatorPage extends AbstractPage {
     public GoogleCalculatorPage enterVirtualMachineClass(PricingInputs pricingInputs) {
         driver.switchTo().defaultContent().switchTo().frame(iFramePricingCalculator).switchTo().frame(iFrameMyFrame);
         optionsForVMClass.click();
-        String xpathString = String.format("//md-option //div[contains(text(),'%s')]", pricingInputs.getVirtualMachineClass());
+        String xpathString = String.format("//md-option //div[contains(text(),'%s')]",
+                pricingInputs.getVirtualMachineClass());
         WebElement optionRegularVMClass = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
                 .until(ExpectedConditions.elementToBeClickable(By.xpath(xpathString)));
         optionRegularVMClass.click();
@@ -106,7 +114,8 @@ public class GoogleCalculatorPage extends AbstractPage {
     public GoogleCalculatorPage enterSeries(PricingInputs pricingInputs) {
         driver.switchTo().defaultContent().switchTo().frame(iFramePricingCalculator).switchTo().frame(iFrameMyFrame);
         optionsForSeries.click();
-        String xpathString = String.format("//md-option //div[contains(text(),'%s')]", pricingInputs.getInstanceSeries());
+        String xpathString = String.format("//md-option //div[contains(text(),'%s')]",
+                pricingInputs.getInstanceSeries());
         WebElement optionInstanceSeries = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
                 .until(ExpectedConditions.elementToBeClickable(By.xpath(xpathString)));
         optionInstanceSeries.click();
@@ -144,10 +153,12 @@ public class GoogleCalculatorPage extends AbstractPage {
     public GoogleCalculatorPage enterNumberOfGPUs(PricingInputs pricingInputs) {
         driver.switchTo().defaultContent().switchTo().frame(iFramePricingCalculator).switchTo().frame(iFrameMyFrame);
         WebElement optionsForNumberOfGPUs = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
-                .until(ExpectedConditions.elementToBeClickable(optionsForNumberOfGPUsLocator));
+                .until(ExpectedConditions.elementToBeClickable(optionsForGPUCountLocator));
         optionsForNumberOfGPUs.click();
-        String xpathString = String.format("//div[@id='select_container_456'] //md-option //div[contains(text(),'%s')]",
-                pricingInputs.getNumberGPUs());
+        String xpathString = String.format("//md-option[" +
+                        "contains(@ng-repeat, 'listingCtrl.supportedGpuNumbers[listingCtrl.computeServer.gpuType]')]" +
+                        " //div[contains(text(),'%s')]",
+                        pricingInputs.getNumberGPUs());
         WebElement optionNumberGPUs = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
                 .until(ExpectedConditions.elementToBeClickable(By.xpath(xpathString)));
         optionNumberGPUs.click();
@@ -167,8 +178,11 @@ public class GoogleCalculatorPage extends AbstractPage {
     public GoogleCalculatorPage enterDataCenterLocation(PricingInputs pricingInputs) {
         driver.switchTo().defaultContent().switchTo().frame(iFramePricingCalculator).switchTo().frame(iFrameMyFrame);
         optionsForDataCenterLocation.click();
-        String xpathString = String.format("//div[@id='select_container_119'] //md-option //div[contains(text(),'%s')]",
-                pricingInputs.getDatacenterLocation());
+        String xpathString = String.format("//md-option[" +
+                        "@ng-repeat='item in listingCtrl.fullRegionList | " +
+                        "filter:listingCtrl.inputRegionText.computeServer'] " +
+                        "//div[contains(text(),'%s')]",
+                        pricingInputs.getDatacenterLocation());
         WebElement optionDatacenterLocation = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
                 .until(ExpectedConditions.elementToBeClickable(By.xpath(xpathString)));
         optionDatacenterLocation.click();
@@ -178,7 +192,8 @@ public class GoogleCalculatorPage extends AbstractPage {
     public GoogleCalculatorPage enterCommittedUsage(PricingInputs pricingInputs) {
         driver.switchTo().defaultContent().switchTo().frame(iFramePricingCalculator).switchTo().frame(iFrameMyFrame);
         optionsForCommittedUsage.click();
-        String xpathString = String.format("//div[@id='select_container_126'] //md-option //div[contains(text(),'%s')]",
+        String xpathString = String.format(
+                "//div[@class='md-select-menu-container md-active md-clickable'] //div[contains(text(),'%s')]",
                 pricingInputs.getCommittedUsage());
         WebElement optionCommittedUsage = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
                 .until(ExpectedConditions.elementToBeClickable(By.xpath(xpathString)));
@@ -223,7 +238,7 @@ public class GoogleCalculatorPage extends AbstractPage {
     public String getTotalCostInCalculator() {
         driver.switchTo().defaultContent().switchTo().frame(iFramePricingCalculator).switchTo().frame(iFrameMyFrame);
         WebElement totalCostWebElement = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
-                .until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("h2[class='md-title'] b")));
+                .until(ExpectedConditions.visibilityOfElementLocated(totalEstimatedCostLocator));
         return getNumericPart(totalCostWebElement.getText());
     }
 
