@@ -1,7 +1,7 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
 <suite name="Title tests" verbose="1">
-    <test name="Title Verification Tests">
+    <test name="Title Tests">
         <classes>
             <class name="com.epam.framework.test.GoogleTitleTest"/>
             <class name="com.epam.framework.test.YopMailTitleTest"/>

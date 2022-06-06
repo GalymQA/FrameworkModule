@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Pricing test" verbose="1">
+    <test name="Pricing Test">
+        <classes>
+            <class name="com.epam.framework.test.DeliveryOfPriceToEmailTest"/>
+        </classes>
+    </test>
+</suite>
