@@ -10,6 +10,9 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 public class DriverSingleton {
 
     private static WebDriver driver;
+    private static final String HEADLESS = "--headless";
+    private static final String DISABLE_GPU = "--disable-gpu";
+    private static final String WINDOW_SIZE = "--window-size=1580,1280";
 
     private DriverSingleton() {}
 
@@ -19,17 +22,17 @@ public class DriverSingleton {
                 case "firefox": {
                     WebDriverManager.firefoxdriver().setup();
                     FirefoxOptions options = new FirefoxOptions();
-//                    options.addArguments("--headless");
-                    options.addArguments("--disable-gpu");
-                    options.addArguments("--window-size=1580,1280");
+                    options.addArguments(HEADLESS);
+                    options.addArguments(DISABLE_GPU);
+                    options.addArguments(WINDOW_SIZE);
                     driver = new FirefoxDriver(options);
                 }
                 default: {
                     WebDriverManager.chromedriver().setup();
                     ChromeOptions options = new ChromeOptions();
-//                    options.addArguments("--headless");
-                    options.addArguments("--disable-gpu");
-                    options.addArguments("--window-size=1580,1280");
+                    options.addArguments(HEADLESS);
+                    options.addArguments(DISABLE_GPU);
+                    options.addArguments(WINDOW_SIZE);
                     driver = new ChromeDriver(options);
                 }
             }
