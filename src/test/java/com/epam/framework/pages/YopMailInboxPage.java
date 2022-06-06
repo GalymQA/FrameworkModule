@@ -1,5 +1,7 @@
 package com.epam.framework.pages;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -14,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class YopMailInboxPage extends AbstractPage {
 
     private final String BASE_URL = "https://yopmail.com/";
+    private final Logger logger = LogManager.getRootLogger();
 
     @FindBy(css = "div[class='bname']")
     private WebElement sectionForEmailAccountName;
@@ -48,10 +51,12 @@ public class YopMailInboxPage extends AbstractPage {
     @Override
     public YopMailInboxPage openPage() {
         driver.navigate().to(BASE_URL);
+        logger.info("Opened YOP mail inbox page");
         return this;
     }
 
     public String getCreatedEmailName() {
+        logger.info("Got the created email name");
         return sectionForEmailAccountName.getText();
     }
 
@@ -69,6 +74,7 @@ public class YopMailInboxPage extends AbstractPage {
         driver.switchTo().defaultContent().switchTo().frame(iFrameInbox);
         WebDriverWait wait = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS);
         wait.until(ExpectedConditions.numberOfElementsToBe(checkboxesInEmailsLocator, 0));
+        logger.info("Deleted all emails in YOP mail inbox");
         return this;
     }
 
@@ -89,6 +95,7 @@ public class YopMailInboxPage extends AbstractPage {
         driver.switchTo().defaultContent().switchTo().frame(iFrameEmailContent);
         WebElement singleEmailBody = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
                 .until(ExpectedConditions.visibilityOfElementLocated(singleEmailTotalCostLocator));
+        logger.info("Got the total cost from the delivered email");
         return getNumericPart(singleEmailBody.getText());
     }
 

@@ -1,6 +1,8 @@
 package com.epam.framework.pages;
 
 import com.epam.framework.model.SearchInput;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -9,6 +11,7 @@ import org.openqa.selenium.support.PageFactory;
 public class GoogleHomePage extends AbstractPage {
 
     private final String BASE_URL = "https://cloud.google.com/";
+    private final Logger logger = LogManager.getRootLogger();
 
     @FindBy(css = "input[name='q']")
     private WebElement inputSearch;
@@ -35,6 +38,7 @@ public class GoogleHomePage extends AbstractPage {
         inputSearch.click();
         inputSearch.sendKeys(searchInput.getSearchInputText());
         formSearch.submit();
+        logger.info("Submitted a form with a search input");
         return new GoogleSearchResultsPage(driver);
     }
 

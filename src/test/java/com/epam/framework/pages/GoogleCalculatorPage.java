@@ -1,6 +1,8 @@
 package com.epam.framework.pages;
 
 import com.epam.framework.model.PricingInputs;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -12,6 +14,7 @@ import java.util.ArrayList;
 public class GoogleCalculatorPage extends AbstractPage {
 
     private final String BASE_URL = "https://cloud.google.com/products/calculator/";
+    private final Logger logger = LogManager.getRootLogger();
 
     @FindBy(xpath = "//md-tab-item //div[@title='Compute Engine' and @class='tab-holder compute']")
     private WebElement sectionComputeEngine;
@@ -65,7 +68,6 @@ public class GoogleCalculatorPage extends AbstractPage {
     private final By totalEstimatedCostLocator =
             By.cssSelector("h2[class='md-title'] b");
 
-
     public GoogleCalculatorPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(this.driver, this);
@@ -74,18 +76,21 @@ public class GoogleCalculatorPage extends AbstractPage {
     @Override
     public GoogleCalculatorPage openPage() {
         driver.navigate().to(BASE_URL);
+        logger.info("Opened Google Cloud calculator page");
         return this;
     }
 
     public GoogleCalculatorPage chooseSectionComputeEngine() {
         driver.switchTo().defaultContent().switchTo().frame(iFramePricingCalculator).switchTo().frame(iFrameMyFrame);
         sectionComputeEngine.click();
+        logger.info("Chose Compute Engine section");
         return this;
     }
 
     public GoogleCalculatorPage enterNumberOfInstances(PricingInputs pricingInputs) {
         driver.switchTo().defaultContent().switchTo().frame(iFramePricingCalculator).switchTo().frame(iFrameMyFrame);
         optionsForNumberOfInstances.sendKeys(pricingInputs.getNumberOfInstances());
+        logger.info("Entered number of instances");
         return this;
     }
 
@@ -94,9 +99,10 @@ public class GoogleCalculatorPage extends AbstractPage {
         optionsForOperatingSystem.click();
         String xpathString = String.format("//md-option //div[contains(text(),'%s')]",
                 pricingInputs.getOperatingSystem());
-        WebElement optionFreeOperatingSystem = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
+        WebElement optionOperatingSystem = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
                 .until(ExpectedConditions.elementToBeClickable(By.xpath(xpathString)));
-        optionFreeOperatingSystem.click();
+        optionOperatingSystem.click();
+        logger.info("Entered an operating system");
         return this;
     }
 
@@ -108,6 +114,7 @@ public class GoogleCalculatorPage extends AbstractPage {
         WebElement optionRegularVMClass = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
                 .until(ExpectedConditions.elementToBeClickable(By.xpath(xpathString)));
         optionRegularVMClass.click();
+        logger.info("Entered a virtual machine class");
         return this;
     }
 
@@ -119,6 +126,7 @@ public class GoogleCalculatorPage extends AbstractPage {
         WebElement optionInstanceSeries = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
                 .until(ExpectedConditions.elementToBeClickable(By.xpath(xpathString)));
         optionInstanceSeries.click();
+        logger.info("Entered a series");
         return this;
     }
 
@@ -129,12 +137,14 @@ public class GoogleCalculatorPage extends AbstractPage {
         WebElement optionInstanceType = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
                 .until(ExpectedConditions.elementToBeClickable(By.xpath(xpathString)));
         optionInstanceType.click();
+        logger.info("Entered an instance type");
         return this;
     }
 
     public GoogleCalculatorPage checkAddGPUsCheckbox() {
         driver.switchTo().defaultContent().switchTo().frame(iFramePricingCalculator).switchTo().frame(iFrameMyFrame);
         checkboxAddGPUs.click();
+        logger.info("Added GPUs");
         return this;
     }
 
@@ -147,6 +157,7 @@ public class GoogleCalculatorPage extends AbstractPage {
         WebElement optionGPUType = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
                 .until(ExpectedConditions.elementToBeClickable(By.xpath(xpathString)));
         optionGPUType.click();
+        logger.info("Entered a GPU type");
         return this;
     }
 
@@ -162,6 +173,7 @@ public class GoogleCalculatorPage extends AbstractPage {
         WebElement optionNumberGPUs = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
                 .until(ExpectedConditions.elementToBeClickable(By.xpath(xpathString)));
         optionNumberGPUs.click();
+        logger.info("Entered a number of GPUs");
         return this;
     }
 
@@ -172,6 +184,7 @@ public class GoogleCalculatorPage extends AbstractPage {
         WebElement optionLocalSSD = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
                 .until(ExpectedConditions.elementToBeClickable(By.xpath(xpathString)));
         optionLocalSSD.click();
+        logger.info("Entered a local SSD");
         return this;
     }
 
@@ -186,6 +199,7 @@ public class GoogleCalculatorPage extends AbstractPage {
         WebElement optionDatacenterLocation = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
                 .until(ExpectedConditions.elementToBeClickable(By.xpath(xpathString)));
         optionDatacenterLocation.click();
+        logger.info("Entered a datacenter location");
         return this;
     }
 
@@ -198,6 +212,7 @@ public class GoogleCalculatorPage extends AbstractPage {
         WebElement optionCommittedUsage = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
                 .until(ExpectedConditions.elementToBeClickable(By.xpath(xpathString)));
         optionCommittedUsage.click();
+        logger.info("Entered a committed usage");
         return this;
     }
 
@@ -207,6 +222,7 @@ public class GoogleCalculatorPage extends AbstractPage {
         WebElement buttonEmailEstimate = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
                 .until(ExpectedConditions.elementToBeClickable(buttonEmailEstimateLocator));
         buttonEmailEstimate.click();
+        logger.info("Requested the form to send estimates");
         return this;
     }
 
@@ -215,6 +231,7 @@ public class GoogleCalculatorPage extends AbstractPage {
         jse.executeScript("window.open()");
         ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
         driver.switchTo().window(tabs.get(1));
+        logger.info("Created a YOP mail tab and switched to it");
         return new YopMailHomePage(driver);
     }
 
@@ -226,12 +243,14 @@ public class GoogleCalculatorPage extends AbstractPage {
                 .until(ExpectedConditions.visibilityOfElementLocated(emailInputLocator));
         emailInput.sendKeys(emailName);
         buttonSendEmail.click();
+        logger.info("Sent pricing to email");
         return this;
     }
 
     public YopMailInboxPage switchToYopMailTab() {
         ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
         driver.switchTo().window(tabs.get(1));
+        logger.info("Switched to YOP mail tab");
         return new YopMailInboxPage(driver);
     }
 
@@ -239,6 +258,7 @@ public class GoogleCalculatorPage extends AbstractPage {
         driver.switchTo().defaultContent().switchTo().frame(iFramePricingCalculator).switchTo().frame(iFrameMyFrame);
         WebElement totalCostWebElement = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
                 .until(ExpectedConditions.visibilityOfElementLocated(totalEstimatedCostLocator));
+        logger.info("Got total cost from the calculator");
         return getNumericPart(totalCostWebElement.getText());
     }
 
