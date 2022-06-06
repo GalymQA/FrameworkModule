@@ -20,13 +20,13 @@ public class DriverSingleton {
                     driver = new FirefoxDriver();
                 }
                 default: {
-                    WebDriverManager.chromedriver().setup();
-                    driver = new ChromeDriver();
 //                    WebDriverManager.chromedriver().setup();
-//                    ChromeOptions options = new ChromeOptions();
-//                    options.addArguments("--headless");
-//                    options.addArguments("--disable-gpu");
-//                    driver = new ChromeDriver(options);
+//                    driver = new ChromeDriver();
+                    WebDriverManager.chromedriver().setup();
+                    ChromeOptions options = new ChromeOptions();
+                    options.addArguments("--headless");
+                    options.addArguments("--disable-gpu");
+                    driver = new ChromeDriver(options);
                 }
             }
             driver.manage().window().maximize();
