@@ -20,12 +20,15 @@ public class DeliveryOfPriceToEmailTest extends CommonConditions {
         SearchInput searchInput = SearchInputCreator.withSearchInputFromProperty();
         PricingInputs pricingInputs = PricingInputsCreator.withPricingInputsFromProperty();
         YopMailInput yopMailInput = YopMailInputCreator.withYopMailInputFromProperty();
+
         GoogleCalculatorPage googleCalculatorPage = enterSearchText(searchInput);
         googleCalculatorPage = enterDetailsOfInstances(googleCalculatorPage, pricingInputs);
         String totalCostInCalculator = getTotalCostInCalculator(googleCalculatorPage);
+
         YopMailInboxPage yopMailInboxPage = createEmailAccountAtYopMail(googleCalculatorPage, yopMailInput);
         String createdEmailName = getCreatedEmailName(yopMailInboxPage);
         yopMailInboxPage = deleteAllEmailsInInbox(yopMailInboxPage);
+
         googleCalculatorPage = sendPriceToEmail(googleCalculatorPage, createdEmailName);
         String totalCostInEmail = getTotalCostInEmail(googleCalculatorPage);
 

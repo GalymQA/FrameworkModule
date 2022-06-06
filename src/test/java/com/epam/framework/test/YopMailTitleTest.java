@@ -10,8 +10,7 @@ public class YopMailTitleTest extends CommonConditions {
     public void verifyTitleOfYopMail() {
         YopMailHomePage yopMailHomePage = new YopMailHomePage(driver).openPage();
         String title = yopMailHomePage.getTitle();
-//        boolean statusOfTitle = title.contains("YOPmail") && title.contains("Disposable Email Address");
-        boolean statusOfTitle = title.contains("YOPmail") && title.contains("ZZZZZZZZZZzzDisposable Email Address");
+        boolean statusOfTitle = title.contains("YOPmail") && title.contains("Disposable Email Address");
 
         Assert.assertTrue(statusOfTitle, "Yop Mail title is not correct.");
     }
