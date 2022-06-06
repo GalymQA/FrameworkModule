@@ -243,7 +243,7 @@ public class GoogleCalculatorPage extends AbstractPage {
                 .until(ExpectedConditions.visibilityOfElementLocated(emailInputLocator));
         emailInput.sendKeys(emailName);
         buttonSendEmail.click();
-        logger.info("Sent pricing to email");
+        logger.info("Sent the price to email");
         return this;
     }
 

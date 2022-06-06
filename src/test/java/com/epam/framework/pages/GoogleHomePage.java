@@ -27,6 +27,7 @@ public class GoogleHomePage extends AbstractPage {
     @Override
     public GoogleHomePage openPage() {
         driver.navigate().to(BASE_URL);
+        logger.info("Opened Google home page");
         return this;
     }
 
