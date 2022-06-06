@@ -24,8 +24,8 @@ public class DriverSingleton {
 //                    driver = new ChromeDriver();
                     WebDriverManager.chromedriver().setup();
                     ChromeOptions options = new ChromeOptions();
-//                    options.addArguments("--headless");
-//                    options.addArguments("--disable-gpu");
+                    options.addArguments("--headless");
+                    options.addArguments("--disable-gpu");
                     options.addArguments("--window-size=1580,1280");
                     driver = new ChromeDriver(options);
                 }
