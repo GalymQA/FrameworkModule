@@ -22,7 +22,7 @@ public class GoogleCalculatorPage extends AbstractPage {
     @FindBy(xpath = "//iframe[@id = 'myFrame']")
     private WebElement iFrameMyFrame;
 
-    @FindBy(id = "input_86")
+    @FindBy(id = "input_85")
     private WebElement optionsForNumberOfInstances;
 
     @FindBy(id = "select_value_label_77")
@@ -43,10 +43,10 @@ public class GoogleCalculatorPage extends AbstractPage {
     @FindBy(id = "select_value_label_409")
     private WebElement optionsForLocalSSD;
 
-    @FindBy(id = "select_value_label_84")
+    @FindBy(id = "select_value_label_83")
     private WebElement optionsForDataCenterLocation;
 
-    @FindBy(id = "select_value_label_85")
+    @FindBy(id = "select_value_label_84")
     private WebElement optionsForCommittedUsage;
 
     @FindBy(xpath = "//form[@name='ComputeEngineForm'] //button[@aria-label='Add to Estimate']")
@@ -146,7 +146,7 @@ public class GoogleCalculatorPage extends AbstractPage {
         WebElement optionsForNumberOfGPUs = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
                 .until(ExpectedConditions.elementToBeClickable(optionsForNumberOfGPUsLocator));
         optionsForNumberOfGPUs.click();
-        String xpathString = String.format("//div[@id='select_container_452'] //md-option //div[contains(text(),'%s')]",
+        String xpathString = String.format("//div[@id='select_container_456'] //md-option //div[contains(text(),'%s')]",
                 pricingInputs.getNumberGPUs());
         WebElement optionNumberGPUs = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
                 .until(ExpectedConditions.elementToBeClickable(By.xpath(xpathString)));
@@ -167,7 +167,7 @@ public class GoogleCalculatorPage extends AbstractPage {
     public GoogleCalculatorPage enterDataCenterLocation(PricingInputs pricingInputs) {
         driver.switchTo().defaultContent().switchTo().frame(iFramePricingCalculator).switchTo().frame(iFrameMyFrame);
         optionsForDataCenterLocation.click();
-        String xpathString = String.format("//div[@id='select_container_122'] //md-option //div[contains(text(),'%s')]",
+        String xpathString = String.format("//div[@id='select_container_119'] //md-option //div[contains(text(),'%s')]",
                 pricingInputs.getDatacenterLocation());
         WebElement optionDatacenterLocation = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
                 .until(ExpectedConditions.elementToBeClickable(By.xpath(xpathString)));
@@ -178,7 +178,7 @@ public class GoogleCalculatorPage extends AbstractPage {
     public GoogleCalculatorPage enterCommittedUsage(PricingInputs pricingInputs) {
         driver.switchTo().defaultContent().switchTo().frame(iFramePricingCalculator).switchTo().frame(iFrameMyFrame);
         optionsForCommittedUsage.click();
-        String xpathString = String.format("//div[@id='select_container_129'] //md-option //div[contains(text(),'%s')]",
+        String xpathString = String.format("//div[@id='select_container_126'] //md-option //div[contains(text(),'%s')]",
                 pricingInputs.getCommittedUsage());
         WebElement optionCommittedUsage = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
                 .until(ExpectedConditions.elementToBeClickable(By.xpath(xpathString)));
