@@ -17,11 +17,9 @@ public class DriverSingleton {
         if (null == driver) {
             switch (System.getProperty("browser")) {
                 case "firefox": {
-//                    WebDriverManager.firefoxdriver().setup();
-//                    driver = new FirefoxDriver();
                     WebDriverManager.firefoxdriver().setup();
                     FirefoxOptions options = new FirefoxOptions();
-                    options.addArguments("--headless");
+//                    options.addArguments("--headless");
                     options.addArguments("--disable-gpu");
                     options.addArguments("--window-size=1580,1280");
                     driver = new FirefoxDriver(options);
@@ -29,7 +27,7 @@ public class DriverSingleton {
                 default: {
                     WebDriverManager.chromedriver().setup();
                     ChromeOptions options = new ChromeOptions();
-                    options.addArguments("--headless");
+//                    options.addArguments("--headless");
                     options.addArguments("--disable-gpu");
                     options.addArguments("--window-size=1580,1280");
                     driver = new ChromeDriver(options);
