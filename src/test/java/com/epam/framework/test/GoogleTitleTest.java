@@ -10,7 +10,7 @@ public class GoogleTitleTest extends CommonConditions {
     public void verifyTitleOfGoogleCloud() {
         GoogleHomePage googleHomePage = new GoogleHomePage(driver).openPage();
         String title = googleHomePage.getTitle();
-        boolean statusOfTitle = title.contains("Cloud Computing Services") && title.contains("AAAGoogle Cloud");
+        boolean statusOfTitle = title.contains("Cloud Computing Services") && title.contains("Google Cloud");
 
         Assert.assertTrue(statusOfTitle, "Google Cloud title is not correct.");
     }
