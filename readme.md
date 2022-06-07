@@ -13,7 +13,7 @@ Develop an automation framework for the Hardcore task in WebDriver.
 - The framework should include an option for running with Jenkins and browser parameterization, test suite, environment
 - Test results should be displayed on the job chart, and the screenshots should be archived as artifacts.
 
-## Hardcore
+### Hardcore
 
 При выполнении задания необходимо использовать возможности Selenium WebDriver, юнит-тест фреймворка и концепцию Page
 Object. Автоматизировать следующий сценарий:
