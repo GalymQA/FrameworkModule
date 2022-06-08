@@ -1,6 +1,6 @@
 package com.epam.framework.pages;
 
-import com.epam.framework.model.YopMailInput;
+import com.epam.framework.model.YopMailAccount;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
@@ -35,9 +35,9 @@ public class YopMailHomePage extends AbstractPage {
         return driver.getTitle();
     }
 
-    public YopMailInboxPage createEmailAccount(YopMailInput yopMailInput) {
+    public YopMailInboxPage createEmailAccount(YopMailAccount yopMailAccount) {
         inputForEmailAccount.click();
-        inputForEmailAccount.sendKeys(yopMailInput.getEmailAccount());
+        inputForEmailAccount.sendKeys(yopMailAccount.getEmailAccount());
         buttonProceedToInbox.click();
         logger.info("Created a new account at YOP mail");
         return new YopMailInboxPage(driver);

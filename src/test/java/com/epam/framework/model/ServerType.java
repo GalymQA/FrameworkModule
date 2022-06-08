@@ -1,6 +1,6 @@
 package com.epam.framework.model;
 
-public class PricingInputs {
+public class ServerType {
 
     private final String numberOfInstances;
     private final String operatingSystem;
@@ -53,16 +53,16 @@ public class PricingInputs {
         return committedUsage;
     }
 
-    public PricingInputs(String numberOfInstances,
-                         String operatingSystem,
-                         String virtualMachineClass,
-                         String instanceSeries,
-                         String instanceType,
-                         String GPUType,
-                         String numberGPUs,
-                         String localSSD,
-                         String datacenterLocation,
-                         String committedUsage) {
+    public ServerType(String numberOfInstances,
+                      String operatingSystem,
+                      String virtualMachineClass,
+                      String instanceSeries,
+                      String instanceType,
+                      String GPUType,
+                      String numberGPUs,
+                      String localSSD,
+                      String datacenterLocation,
+                      String committedUsage) {
         this.numberOfInstances = numberOfInstances;
         this.operatingSystem = operatingSystem;
         this.virtualMachineClass = virtualMachineClass;

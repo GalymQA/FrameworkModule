@@ -1,6 +1,6 @@
 package com.epam.framework.model;
 
-public class YopMailInput {
+public class YopMailAccount {
 
     private final String emailAccount;
 
@@ -8,7 +8,7 @@ public class YopMailInput {
         return emailAccount;
     }
 
-    public YopMailInput(String emailAccount) {
+    public YopMailAccount(String emailAccount) {
         this.emailAccount = emailAccount;
     }
 

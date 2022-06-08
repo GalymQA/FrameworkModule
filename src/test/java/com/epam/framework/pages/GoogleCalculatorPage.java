@@ -1,6 +1,6 @@
 package com.epam.framework.pages;
 
-import com.epam.framework.model.PricingInputs;
+import com.epam.framework.model.ServerType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
@@ -87,18 +87,18 @@ public class GoogleCalculatorPage extends AbstractPage {
         return this;
     }
 
-    public GoogleCalculatorPage enterNumberOfInstances(PricingInputs pricingInputs) {
+    public GoogleCalculatorPage enterNumberOfInstances(ServerType serverType) {
         driver.switchTo().defaultContent().switchTo().frame(iFramePricingCalculator).switchTo().frame(iFrameMyFrame);
-        optionsForNumberOfInstances.sendKeys(pricingInputs.getNumberOfInstances());
+        optionsForNumberOfInstances.sendKeys(serverType.getNumberOfInstances());
         logger.info("Entered number of instances");
         return this;
     }
 
-    public GoogleCalculatorPage enterOperatingSystem(PricingInputs pricingInputs) {
+    public GoogleCalculatorPage enterOperatingSystem(ServerType serverType) {
         driver.switchTo().defaultContent().switchTo().frame(iFramePricingCalculator).switchTo().frame(iFrameMyFrame);
         optionsForOperatingSystem.click();
         String xpathString = String.format("//md-option //div[contains(text(),'%s')]",
-                pricingInputs.getOperatingSystem());
+                serverType.getOperatingSystem());
         WebElement optionOperatingSystem = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
                 .until(ExpectedConditions.elementToBeClickable(By.xpath(xpathString)));
         optionOperatingSystem.click();
@@ -106,11 +106,11 @@ public class GoogleCalculatorPage extends AbstractPage {
         return this;
     }
 
-    public GoogleCalculatorPage enterVirtualMachineClass(PricingInputs pricingInputs) {
+    public GoogleCalculatorPage enterVirtualMachineClass(ServerType serverType) {
         driver.switchTo().defaultContent().switchTo().frame(iFramePricingCalculator).switchTo().frame(iFrameMyFrame);
         optionsForVMClass.click();
         String xpathString = String.format("//md-option //div[contains(text(),'%s')]",
-                pricingInputs.getVirtualMachineClass());
+                serverType.getVirtualMachineClass());
         WebElement optionRegularVMClass = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
                 .until(ExpectedConditions.elementToBeClickable(By.xpath(xpathString)));
         optionRegularVMClass.click();
@@ -118,11 +118,11 @@ public class GoogleCalculatorPage extends AbstractPage {
         return this;
     }
 
-    public GoogleCalculatorPage enterSeries(PricingInputs pricingInputs) {
+    public GoogleCalculatorPage enterSeries(ServerType serverType) {
         driver.switchTo().defaultContent().switchTo().frame(iFramePricingCalculator).switchTo().frame(iFrameMyFrame);
         optionsForSeries.click();
         String xpathString = String.format("//md-option //div[contains(text(),'%s')]",
-                pricingInputs.getInstanceSeries());
+                serverType.getInstanceSeries());
         WebElement optionInstanceSeries = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
                 .until(ExpectedConditions.elementToBeClickable(By.xpath(xpathString)));
         optionInstanceSeries.click();
@@ -130,10 +130,10 @@ public class GoogleCalculatorPage extends AbstractPage {
         return this;
     }
 
-    public GoogleCalculatorPage enterInstanceType(PricingInputs pricingInputs) {
+    public GoogleCalculatorPage enterInstanceType(ServerType serverType) {
         driver.switchTo().defaultContent().switchTo().frame(iFramePricingCalculator).switchTo().frame(iFrameMyFrame);
         optionsForInstanceType.click();
-        String xpathString = String.format("//md-option //div[contains(text(),'%s')]", pricingInputs.getInstanceType());
+        String xpathString = String.format("//md-option //div[contains(text(),'%s')]", serverType.getInstanceType());
         WebElement optionInstanceType = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
                 .until(ExpectedConditions.elementToBeClickable(By.xpath(xpathString)));
         optionInstanceType.click();
@@ -148,12 +148,12 @@ public class GoogleCalculatorPage extends AbstractPage {
         return this;
     }
 
-    public GoogleCalculatorPage enterGPUType(PricingInputs pricingInputs) {
+    public GoogleCalculatorPage enterGPUType(ServerType serverType) {
         driver.switchTo().defaultContent().switchTo().frame(iFramePricingCalculator).switchTo().frame(iFrameMyFrame);
         WebElement optionsForGPUType = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
                 .until(ExpectedConditions.elementToBeClickable(optionsForGPUTypeLocator));
         optionsForGPUType.click();
-        String xpathString = String.format("//md-option //div[contains(text(),'%s')]", pricingInputs.getGPUType());
+        String xpathString = String.format("//md-option //div[contains(text(),'%s')]", serverType.getGPUType());
         WebElement optionGPUType = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
                 .until(ExpectedConditions.elementToBeClickable(By.xpath(xpathString)));
         optionGPUType.click();
@@ -161,7 +161,7 @@ public class GoogleCalculatorPage extends AbstractPage {
         return this;
     }
 
-    public GoogleCalculatorPage enterNumberOfGPUs(PricingInputs pricingInputs) {
+    public GoogleCalculatorPage enterNumberOfGPUs(ServerType serverType) {
         driver.switchTo().defaultContent().switchTo().frame(iFramePricingCalculator).switchTo().frame(iFrameMyFrame);
         WebElement optionsForNumberOfGPUs = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
                 .until(ExpectedConditions.elementToBeClickable(optionsForGPUCountLocator));
@@ -169,7 +169,7 @@ public class GoogleCalculatorPage extends AbstractPage {
         String xpathString = String.format("//md-option[" +
                         "contains(@ng-repeat, 'listingCtrl.supportedGpuNumbers[listingCtrl.computeServer.gpuType]')]" +
                         " //div[contains(text(),'%s')]",
-                        pricingInputs.getNumberGPUs());
+                        serverType.getNumberGPUs());
         WebElement optionNumberGPUs = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
                 .until(ExpectedConditions.elementToBeClickable(By.xpath(xpathString)));
         optionNumberGPUs.click();
@@ -177,10 +177,10 @@ public class GoogleCalculatorPage extends AbstractPage {
         return this;
     }
 
-    public GoogleCalculatorPage enterLocalSSD(PricingInputs pricingInputs) {
+    public GoogleCalculatorPage enterLocalSSD(ServerType serverType) {
         driver.switchTo().defaultContent().switchTo().frame(iFramePricingCalculator).switchTo().frame(iFrameMyFrame);
         optionsForLocalSSD.click();
-        String xpathString = String.format("//md-option //div[contains(text(),'%s')]", pricingInputs.getLocalSSD());
+        String xpathString = String.format("//md-option //div[contains(text(),'%s')]", serverType.getLocalSSD());
         WebElement optionLocalSSD = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
                 .until(ExpectedConditions.elementToBeClickable(By.xpath(xpathString)));
         optionLocalSSD.click();
@@ -188,14 +188,14 @@ public class GoogleCalculatorPage extends AbstractPage {
         return this;
     }
 
-    public GoogleCalculatorPage enterDataCenterLocation(PricingInputs pricingInputs) {
+    public GoogleCalculatorPage enterDataCenterLocation(ServerType serverType) {
         driver.switchTo().defaultContent().switchTo().frame(iFramePricingCalculator).switchTo().frame(iFrameMyFrame);
         optionsForDataCenterLocation.click();
         String xpathString = String.format("//md-option[" +
                         "@ng-repeat='item in listingCtrl.fullRegionList | " +
                         "filter:listingCtrl.inputRegionText.computeServer'] " +
                         "//div[contains(text(),'%s')]",
-                        pricingInputs.getDatacenterLocation());
+                        serverType.getDatacenterLocation());
         WebElement optionDatacenterLocation = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
                 .until(ExpectedConditions.elementToBeClickable(By.xpath(xpathString)));
         optionDatacenterLocation.click();
@@ -203,12 +203,12 @@ public class GoogleCalculatorPage extends AbstractPage {
         return this;
     }
 
-    public GoogleCalculatorPage enterCommittedUsage(PricingInputs pricingInputs) {
+    public GoogleCalculatorPage enterCommittedUsage(ServerType serverType) {
         driver.switchTo().defaultContent().switchTo().frame(iFramePricingCalculator).switchTo().frame(iFrameMyFrame);
         optionsForCommittedUsage.click();
         String xpathString = String.format(
                 "//div[@class='md-select-menu-container md-active md-clickable'] //div[contains(text(),'%s')]",
-                pricingInputs.getCommittedUsage());
+                serverType.getCommittedUsage());
         WebElement optionCommittedUsage = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
                 .until(ExpectedConditions.elementToBeClickable(By.xpath(xpathString)));
         optionCommittedUsage.click();

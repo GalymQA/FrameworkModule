@@ -14,28 +14,25 @@ public class DriverSingleton {
     private static final String DISABLE_GPU = "--disable-gpu";
     private static final String WINDOW_SIZE = "--window-size=1580,1280";
 
-    private DriverSingleton() {}
+    private DriverSingleton() {
+    }
 
     public static WebDriver getDriver() {
-        if (null == driver) {
-            switch (System.getProperty("browser")) {
-                case "firefox": {
-                    WebDriverManager.firefoxdriver().setup();
-                    FirefoxOptions options = new FirefoxOptions();
-                    options.addArguments(HEADLESS);
-                    options.addArguments(DISABLE_GPU);
-                    options.addArguments(WINDOW_SIZE);
-                    driver = new FirefoxDriver(options);
-                }
-                default: {
-                    WebDriverManager.chromedriver().setup();
-                    ChromeOptions options = new ChromeOptions();
-                    options.addArguments(HEADLESS);
-                    options.addArguments(DISABLE_GPU);
-                    options.addArguments(WINDOW_SIZE);
-                    driver = new ChromeDriver(options);
-                }
+        if (driver == null) {
+            if ("firefox".equals(System.getProperty("browser"))) {
+                WebDriverManager.firefoxdriver().setup();
+                FirefoxOptions options = new FirefoxOptions();
+                options.addArguments(HEADLESS);
+                options.addArguments(DISABLE_GPU);
+                options.addArguments(WINDOW_SIZE);
+                driver = new FirefoxDriver(options);
             }
+            WebDriverManager.chromedriver().setup();
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments(HEADLESS);
+            options.addArguments(DISABLE_GPU);
+            options.addArguments(WINDOW_SIZE);
+            driver = new ChromeDriver(options);
             driver.manage().window().maximize();
         }
         return driver;

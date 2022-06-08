@@ -1,6 +1,6 @@
 package com.epam.framework.service;
 
-import com.epam.framework.model.PricingInputs;
+import com.epam.framework.model.ServerType;
 
 public class PricingInputsCreator {
 
@@ -15,8 +15,8 @@ public class PricingInputsCreator {
     public static final String TESTDATA_DATACENTER_LOCATION = "testdata.datacenter.location";
     public static final String TESTDATA_COMMITTED_USAGE = "testdata.committed.usage";
 
-    public static PricingInputs withPricingInputsFromProperty() {
-        return new PricingInputs(
+    public static ServerType withPricingInputsFromProperty() {
+        return new ServerType(
                 TestDataReader.getTestData(TESTDATA_NUMBER_OF_INSTANCES),
                 TestDataReader.getTestData(TESTDATA_OPERATING_SYSTEM),
                 TestDataReader.getTestData(TESTDATA_VIRTUAL_MACHINE_CLASS),

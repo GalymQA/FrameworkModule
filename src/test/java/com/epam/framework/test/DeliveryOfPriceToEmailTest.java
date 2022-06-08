@@ -1,8 +1,8 @@
 package com.epam.framework.test;
 
-import com.epam.framework.model.PricingInputs;
+import com.epam.framework.model.ServerType;
 import com.epam.framework.model.SearchInput;
-import com.epam.framework.model.YopMailInput;
+import com.epam.framework.model.YopMailAccount;
 import com.epam.framework.pages.GoogleHomePage;
 import com.epam.framework.pages.GoogleCalculatorPage;
 import com.epam.framework.pages.YopMailHomePage;
@@ -18,16 +18,16 @@ public class DeliveryOfPriceToEmailTest extends CommonConditions {
     @Test(description = "Verify delivery of a Google Cloud price quote to Yop Mail")
     public void verifyPriceTest() throws InterruptedException {
         SearchInput searchInput = SearchInputCreator.withSearchInputFromProperty();
-        PricingInputs pricingInputs = PricingInputsCreator.withPricingInputsFromProperty();
-        YopMailInput yopMailInput = YopMailInputCreator.withYopMailInputFromProperty();
+        ServerType serverType = PricingInputsCreator.withPricingInputsFromProperty();
+        YopMailAccount yopMailAccount = YopMailInputCreator.withYopMailInputFromProperty();
 
         GoogleCalculatorPage googleCalculatorPage = enterSearchText(searchInput);
-        googleCalculatorPage = enterDetailsOfInstances(googleCalculatorPage, pricingInputs);
+        googleCalculatorPage = enterDetailsOfInstances(googleCalculatorPage, serverType);
         String totalCostInCalculator = getTotalCostInCalculator(googleCalculatorPage);
 
-        YopMailInboxPage yopMailInboxPage = createEmailAccountAtYopMail(googleCalculatorPage, yopMailInput);
+        YopMailInboxPage yopMailInboxPage = createEmailAccountAtYopMail(googleCalculatorPage, yopMailAccount);
         String createdEmailName = getCreatedEmailName(yopMailInboxPage);
-        yopMailInboxPage = deleteAllEmailsInInbox(yopMailInboxPage);
+        deleteAllEmailsInInbox(yopMailInboxPage);
 
         googleCalculatorPage = sendPriceToEmail(googleCalculatorPage, createdEmailName);
         String totalCostInEmail = getTotalCostInEmail(googleCalculatorPage);
@@ -44,19 +44,19 @@ public class DeliveryOfPriceToEmailTest extends CommonConditions {
 
     private GoogleCalculatorPage enterDetailsOfInstances(
             GoogleCalculatorPage googleCalculatorPage,
-            PricingInputs pricingInputs) {
+            ServerType serverType) {
         return googleCalculatorPage.chooseSectionComputeEngine()
-                .enterNumberOfInstances(pricingInputs)
-                .enterOperatingSystem(pricingInputs)
-                .enterVirtualMachineClass(pricingInputs)
-                .enterSeries(pricingInputs)
-                .enterInstanceType(pricingInputs)
+                .enterNumberOfInstances(serverType)
+                .enterOperatingSystem(serverType)
+                .enterVirtualMachineClass(serverType)
+                .enterSeries(serverType)
+                .enterInstanceType(serverType)
                 .checkAddGPUsCheckbox()
-                .enterGPUType(pricingInputs)
-                .enterNumberOfGPUs(pricingInputs)
-                .enterLocalSSD(pricingInputs)
-                .enterDataCenterLocation(pricingInputs)
-                .enterCommittedUsage(pricingInputs)
+                .enterGPUType(serverType)
+                .enterNumberOfGPUs(serverType)
+                .enterLocalSSD(serverType)
+                .enterDataCenterLocation(serverType)
+                .enterCommittedUsage(serverType)
                 .requestFormToSendEstimates();
     }
 
@@ -66,11 +66,11 @@ public class DeliveryOfPriceToEmailTest extends CommonConditions {
 
     private YopMailInboxPage createEmailAccountAtYopMail(
             GoogleCalculatorPage googleCalculatorPage,
-            YopMailInput yopMailInput) {
+            YopMailAccount yopMailAccount) {
         YopMailHomePage yopMailHomePage = googleCalculatorPage.createYopMailTabAndSwitch();
         return yopMailHomePage
                 .openPage()
-                .createEmailAccount(yopMailInput);
+                .createEmailAccount(yopMailAccount);
     }
 
     private String getCreatedEmailName(YopMailInboxPage yopMailInboxPage) {

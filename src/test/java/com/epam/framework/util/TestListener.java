@@ -21,37 +21,38 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onTestStart(ITestResult iTestResult) {
-
+        log.error("Started a test");
     }
 
     @Override
     public void onTestSuccess(ITestResult iTestResult) {
-
+        log.error("The test passed");
     }
 
     @Override
     public void onTestFailure(ITestResult iTestResult) {
         saveScreenshot();
+        log.error("Saved screenshot");
     }
 
     @Override
     public void onTestSkipped(ITestResult iTestResult) {
-
+        log.error("Skipped a test");
     }
 
     @Override
     public void onTestFailedButWithinSuccessPercentage(ITestResult iTestResult) {
-
+        log.error("Test failed but within success percentage rate");
     }
 
     @Override
     public void onStart(ITestContext iTestContext) {
-
+        log.error("Started");
     }
 
     @Override
     public void onFinish(ITestContext iTestContext) {
-
+        log.error("Finished");
     }
 
     private void saveScreenshot() {
