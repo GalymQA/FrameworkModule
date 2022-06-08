@@ -21,12 +21,12 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onTestStart(ITestResult iTestResult) {
-        log.error("Started a test");
+        log.info("Started a test");
     }
 
     @Override
     public void onTestSuccess(ITestResult iTestResult) {
-        log.error("The test passed");
+        log.info("The test passed");
     }
 
     @Override
@@ -37,7 +37,7 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onTestSkipped(ITestResult iTestResult) {
-        log.error("Skipped a test");
+        log.info("Skipped a test");
     }
 
     @Override
@@ -47,12 +47,12 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onStart(ITestContext iTestContext) {
-        log.error("Started");
+        log.info("Started");
     }
 
     @Override
     public void onFinish(ITestContext iTestContext) {
-        log.error("Finished");
+        log.info("Finished");
     }
 
     private void saveScreenshot() {
